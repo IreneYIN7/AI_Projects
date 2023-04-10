@@ -4,17 +4,17 @@
 
 - [Ok ] Clarifications
 
-- [] Construct Graph from input file
+- [OK ] Construct Graph from input file
 
-- [] Build CNF from the graph
+- [OK ] Build CNF from the graph
 
-- [] Build DPLL Solver
+- [OK ] Build DPLL Solver
 
-- [] Convert CNF to the result through DPLL
+- [OK ] Convert CNF to the result through DPLL
 
-- [] Build solutions
+- [OK ] Build solutions
 
-- [] Test
+- [OK ] Test
 
 ---
 ## Clarification
@@ -29,6 +29,8 @@ In order to solve map/vertex coloring with predicate logic, there are 2 types of
 1. Every vertex should have at least one color.
 
 2. No adjacent same colors rhs for every edge, distinct clause for each color.
+
+3. At most one color for each vertex.
 
 [Option 1] Produce BNF -> CNF -> DPLL
 [Option 2] Produce CNF -> DPLL 
@@ -61,26 +63,37 @@ In verbose mode, you should print out the CNF clauses that are being sent to the
 
         solution = converBack(assignments)
 
-## Compile
-A program run should look like:
+## Compiling
+To Compile my program:
 
-`solver [-v] $ncolors $input-file`
+`python3 main.py [-v] $ncolors $input-file`
 
-
-- `-v` is an optional flag for verbose mode (more later)
+- I'm using python3 for this Lab.
+- main.py is my main generator.
+- `-v` is an optional flag for verbose mode (more later).
 - `$ncolors` is the number of colors to solve for.  If 2 use R, G; if 3 RGB; if 4 RGBY.
-- `$input-file ` is a graph input file (see next section)
+- `$input-file ` is a graph input file (see next section).
 
-In this program, I assume all the input file is well formatted. 
+Note: 
+- In this program, I assume all the input file is well formatted. 
 
-This program **DOES NOT** check the bad inputs.
+- This program **DOES NOT** check the bad inputs.
+
+- This program only takes number of colors in the range from 2 to 4. (i.e. 2: [R, G], 3: [R, G, B], 4: [R, G, B, Y])
+
+eg:
+
+`python3 main.py -v 3 tiny.txt`
+
+`python3 main.py 3 tiny.txt`
+
 
 ## Input file
-The input text file is a subset of Lab 1 (the ':' lines), in that each line should contain a vertex and some neighbors.
+The input text file is a subset of Lab 1 (the ``:`` lines), in that each line should contain a vertex and some neighbors.
 
 - A vertex can be up to 32 characters long and valid characters for a vertex are any other than the 4 special characters used for punctuation: `:` ,  `[` , `]` , `,`
 - Blank lines or lines whose first character is '#' should be skipped (allows comments and spacing)
 - `x : [y]` implies `y : [x]` [Note: undirected graph], but it may or may not be specified.  Either is valid and 'y' in this example need not have a line with it on the LHS.
-- `x : []` is also valid 
+- `x : []` is also valid. This means `x` is a solo element (`x` has No adjacent elements). 
 
 Note that the graph is undirected, but only one edge direction is needed to imply the two way relationship (although both directions are legal).
